@@ -5,17 +5,30 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+
 } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const API_URL = "http://192.168.0.105:3000/api/auth";
 
 export const AuthScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+ 
 
   const [isError, setIsError] = useState(false);
   const [message, setMessage] = useState("");
   const [isLogin, setIsLogin] = useState(true);
+
+  const storeData = async (value:any) => {
+    try {
+      console.log('guardardo');
+      await AsyncStorage.setItem('token', value)
+    } catch (e) {
+      // saving error
+    }
+  }
+  
 
   const onLoggedIn = (token: String) => {
     fetch(`${API_URL}/user`, {
@@ -29,6 +42,7 @@ export const AuthScreen = () => {
         const data = await res.json();
         console.log(data);
         if (res.status === 200) {
+          
           setMessage(data.message);
         }
       } catch (error) {
@@ -54,8 +68,10 @@ export const AuthScreen = () => {
           setIsError(true);
           setMessage(data.message);
         } else {
-          onLoggedIn(data.accessToken);
+          // onLoggedIn(data.accessToken);
           setIsError(false);
+          // save token
+          storeData(data.accessToken)
           setMessage(data.message);
         }
       } catch (error) {
