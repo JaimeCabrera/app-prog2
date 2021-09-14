@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React,{useState} from "react";
 import {
   Text,
   StyleSheet,
@@ -8,10 +8,37 @@ import {
 
 } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { HomeScreen } from "./HomeScreen";
 
 const API_URL = "http://192.168.0.105:3000/api/auth";
 
-export const AuthScreen = () => {
+
+
+
+
+
+export const AuthScreen = ({navigation}) => {
+
+  // const Stack = createNativeStackNavigator();
+  // const MyStack = () => {
+  //   return (
+  //     <NavigationContainer>
+  //       <Stack.Navigator>
+  //         <Stack.Screen
+  //           name="Home"
+  //           component={HomeScreen}
+  //           options={{ title: 'Welcome' }}
+  //         />
+          
+  //       </Stack.Navigator>
+  //     </NavigationContainer>
+  //   );
+  // };
+  
+
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
  
@@ -20,12 +47,16 @@ export const AuthScreen = () => {
   const [message, setMessage] = useState("");
   const [isLogin, setIsLogin] = useState(true);
 
+
+  // navigation
   const storeData = async (value:any) => {
     try {
       console.log('guardardo');
       await AsyncStorage.setItem('token', value)
+      navigation.replace('HomeScreen');
+      
     } catch (e) {
-      // saving error
+      // navigation.push('HomeScreen');
     }
   }
   
