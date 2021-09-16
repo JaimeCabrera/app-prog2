@@ -1,41 +1,44 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import {  StyleSheet,Button } from "react-native";
 import { AuthScreen, HomeScreen } from "./screens";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// const Stack = createNativeStackNavigator();
-// const MyStack = () => {
-//   return (
-//     <NavigationContainer>
-//       <Stack.Navigator>
-//         <Stack.Screen
-//           name="Home"
-//           component={HomeScreen}
-//           options={{ title: 'Welcome' }}
-//         />
 
-//       </Stack.Navigator>
-//     </NavigationContainer>
-//   );
-// };
 
 export default function App() {
+  
+  const removeValue = async () => {
+    try {
+      await AsyncStorage.removeItem('token')
+    } catch(e) {
+      // remove error
+    }
+  
+    console.log('Done.')
+  }
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Login" component={AuthScreen} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{
+          title: 'Organizador de tareas',
+          headerStyle: {
+            backgroundColor: '#E5E8E8',
+          },
+          headerTintColor: '#2C3E50',
+          
+          
+        }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#ABB2B9",
-  },
-});
+  btnLogout:{
+    color:"#3498DB"
+  }
+})
+
