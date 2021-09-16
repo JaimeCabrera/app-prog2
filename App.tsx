@@ -9,15 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
   
-  const removeValue = async () => {
-    try {
-      await AsyncStorage.removeItem('token')
-    } catch(e) {
-      // remove error
-    }
-  
-    console.log('Done.')
-  }
+ 
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
