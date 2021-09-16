@@ -3,7 +3,7 @@ import {  StyleSheet,Button } from "react-native";
 import { AuthScreen, HomeScreen } from "./screens";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StatusBar } from "expo-status-bar";
 
 
 
@@ -13,6 +13,7 @@ export default function App() {
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
+      <StatusBar style="dark"/>
       <Stack.Navigator>
         <Stack.Screen name="Login" component={AuthScreen} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{
@@ -21,8 +22,6 @@ export default function App() {
             backgroundColor: '#E5E8E8',
           },
           headerTintColor: '#2C3E50',
-          
-          
         }} />
       </Stack.Navigator>
     </NavigationContainer>

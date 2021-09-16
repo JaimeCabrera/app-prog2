@@ -1,19 +1,17 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { Button, FlatList, Text,StyleSheet, View } from "react-native";
+import { Button, Text, StyleSheet, View } from "react-native";
 import FloatButton from "../compoents/FloatButton";
 import { ListCategories } from "../compoents/ListCategories";
 
-
- interface  Icategory {
-   id:number,
-  name: String,
-};
-
+interface Icategory {
+  id: number;
+  name: String;
+}
 
 export const HomeScreen = ({ navigation }: any) => {
   const API_URL = "http://192.168.0.104:3000";
-  const [token, setToken] = useState("");
   const [categories, setCategories] = useState<Icategory[]>([]);
 
   useEffect(() => {
@@ -53,48 +51,32 @@ export const HomeScreen = ({ navigation }: any) => {
       // console.log(data);
     });
   };
-  // const onLoggedIn = (token: String) => {
-  //   fetch(`${API_URL}/user`, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       "x-access-token": `${token}`,
-  //     },
-  //   }).then(async (res) => {
-  //     try {
-  //       const data = await res.json();
-  //       console.log(data);
-  //       if (res.status === 200) {
-  //         setMessage(data.message);
-  //       }
-  //     } catch (error) {
-  //       navigation.replace('AuthScreen');
-  //     }
-  //   });
-  // };
-  
 
-const handleNewCategory=()=>{
-alert('abre el formulario')
-}
+  const handleNewCategory = () => {};
   return (
     <>
-    <View>
-      <Text style={styles.categoryTitle}>Lista de categorías</Text>
-      
-      { (categories) ? <ListCategories  categories={categories} navigation={navigation} />:''}
-      
-    </View>
-    <FloatButton addCategory={handleNewCategory} />
+      <StatusBar style="dark"/>
+
+      <View>
+        <Text style={styles.categoryTitle}>Lista de categorías</Text>
+
+        {categories ? (
+          <ListCategories categories={categories} navigation={navigation} />
+        ) : (
+          ""
+        )}
+      </View>
+
+      <FloatButton addCategory={handleNewCategory} />
     </>
   );
 };
 const styles = StyleSheet.create({
-  categoryTitle:{
-    flex:1,
-    justifyContent:"center",
-    margin:20,
-    fontSize:16,
-    color:"#808B96"
-  }
-})
+  categoryTitle: {
+    flex: 1,
+    justifyContent: "center",
+    margin: 20,
+    fontSize: 16,
+    color: "#808B96",
+  },
+});

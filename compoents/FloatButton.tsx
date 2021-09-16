@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Icon  from 'react-native-vector-icons/FontAwesome5'
 
-const FloatButton = ({addCategory}) => {
+const FloatButton = ({addCategory}:any) => {
   return (
     <TouchableOpacity style={styles.floatActionButton} onPress={addCategory}>
       <Icon name="plus" size={21} color="#eee"/>
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     borderRadius:100,
     justifyContent:"center",
     alignItems:"center",
-    shadowRadius:6,
+    shadowRadius:10,
     shadowColor:"#909497"
   }
 })
