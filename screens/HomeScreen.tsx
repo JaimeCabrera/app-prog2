@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { Button, Text, StyleSheet, View } from "react-native";
+import { Button, Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import FloatButton from "../compoents/FloatButton";
 import { ListCategories } from "../compoents/ListCategories";
 
@@ -17,7 +17,8 @@ export const HomeScreen = ({ navigation }: any) => {
   useEffect(() => {
     getCategories();
     navigation.setOptions({
-      headerRight: () => <Button onPress={handleLogout} title="Salir" />,
+      headerRight: () => (<TouchableOpacity onPress={handleLogout}><Text style={styles.logout}> Cerrar Sesión</Text></TouchableOpacity> ),
+      
     });
   }, [navigation]);
 
@@ -52,7 +53,9 @@ export const HomeScreen = ({ navigation }: any) => {
     });
   };
 
-  const handleNewCategory = () => {};
+  const handleNewCategory = () => {
+    navigation.navigate('Categoria Nueva')
+  };
   return (
     <>
       <StatusBar style="dark"/>
@@ -79,4 +82,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#808B96",
   },
+  logout:{
+    color:'#566573',
+    marginRight:20,
+    fontSize:16,
+  }
 });

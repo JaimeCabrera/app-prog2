@@ -1,4 +1,5 @@
 import { AuthScreen } from "./AuthScreen";
 import {HomeScreen} from './HomeScreen'
+import {AddCategory} from './AddCategory'
 
-export { AuthScreen,HomeScreen };
+export { AuthScreen,HomeScreen,AddCategory };
