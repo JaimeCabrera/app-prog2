@@ -1,24 +1,23 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
-import { Button, Text, StyleSheet, View, TouchableOpacity } from "react-native";
+import React, { useEffect } from "react";
+import {
+  Text,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  StatusBar,
+} from "react-native";
 import FloatButton from "../compoents/FloatButton";
 import { ListCategories } from "../compoents/ListCategories";
 
-interface Icategory {
-  id: number;
-  name: String;
-}
-
 export const HomeScreen = ({ navigation }: any) => {
-  const API_URL = "http://192.168.0.104:3000";
-  const [categories, setCategories] = useState<Icategory[]>([]);
-
   useEffect(() => {
-    getCategories();
     navigation.setOptions({
-      headerRight: () => (<TouchableOpacity onPress={handleLogout}><Text style={styles.logout}> Cerrar Sesión</Text></TouchableOpacity> ),
-      
+      headerRight: () => (
+        <TouchableOpacity onPress={handleLogout}>
+          <Text style={styles.logout}> Cerrar Sesión</Text>
+        </TouchableOpacity>
+      ),
     });
   }, [navigation]);
 
@@ -34,57 +33,38 @@ export const HomeScreen = ({ navigation }: any) => {
     } catch (e) {
       // remove error
     }
-
     console.log("Done.");
   };
 
-  const getCategories = async () => {
-    const token = await AsyncStorage.getItem("token");
-    fetch(`${API_URL}/api/categories`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": `${token}`,
-      },
-    }).then(async (res) => {
-      const data = await res.json();
-      setCategories(data);
-      // console.log(data);
-    });
-  };
-
   const handleNewCategory = () => {
-    navigation.navigate('Categoria Nueva')
+    navigation.navigate("Categoria Nueva");
   };
+  // <Text style={styles.categoryTitle}>Lista de categorías</Text>
   return (
     <>
-      <StatusBar style="dark"/>
-
-      <View>
-        <Text style={styles.categoryTitle}>Lista de categorías</Text>
-
-        {categories ? (
-          <ListCategories categories={categories} navigation={navigation} />
-        ) : (
-          ""
-        )}
+      <StatusBar backgroundColor="#2874A6" barStyle={"light-content"} />
+      <View style={styles.container}>
+        <ListCategories navigation={navigation} />
+        <FloatButton addCategory={handleNewCategory} />
       </View>
-
-      <FloatButton addCategory={handleNewCategory} />
     </>
   );
 };
 const styles = StyleSheet.create({
-  categoryTitle: {
+  container: {
     flex: 1,
-    justifyContent: "center",
-    margin: 20,
+    marginTop: 0,
+  },
+
+  categoryTitle: {
+    margin: 10,
     fontSize: 16,
     color: "#808B96",
   },
-  logout:{
-    color:'#566573',
-    marginRight:20,
-    fontSize:16,
-  }
+  logout: {
+    color: "#566573",
+    marginRight: 20,
+    fontSize: 12,
+    fontWeight: "600",
+  },
 });

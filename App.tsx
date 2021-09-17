@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, Text } from "react-native";
-import { AddCategory, AuthScreen, HomeScreen } from "./screens";
+import { AddCategory, AuthScreen, HomeScreen, TasksScreen } from "./screens";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
@@ -16,14 +16,16 @@ export default function App() {
           name="HomeScreen"
           component={HomeScreen}
           options={(navigation) => ({
-            title: "Organizador de tareas",
+            title: "Lista de Categorías",
             headerStyle: {
               backgroundColor: "#E5E8E8",
             },
             headerTintColor: "#2C3E50",
+            headerTitleStyle:{fontSize:16}
           })}
         />
         <Stack.Screen name="Categoria Nueva" component={AddCategory} />
+        <Stack.Screen name="Tareas" component={TasksScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

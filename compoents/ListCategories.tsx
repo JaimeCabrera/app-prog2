@@ -1,54 +1,66 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   FlatList,
+  RefreshControl,
+  SafeAreaView,
   StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
 } from "react-native";
-import { Icon } from "react-native-elements";
+import { getAllCategories } from "../services/category.services";
+import LoadingIndicator from "./LoadingIndicator";
+import CategoryItem from "./CategoryItem";
 
-export const ListCategories = ({ categories, navigation }: any) => {
-  return (
-    <View>
+interface Icategory {
+  id: number;
+  name: String;
+}
+
+export const ListCategories = ({ navigation }: any) => {
+  const [categories, setCategories] = useState<Icategory[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+  const loadCategories = async () => {
+    const data = await getAllCategories();
+    setCategories(data);
+    console.log("loaded");
+  };
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    setLoading(true);
+    await loadCategories();
+    setRefreshing(false);
+    setLoading(false);
+  }, [categories]);
+
+  const renderItem = ({ item }: any) => (
+    <CategoryItem category={item} navigation={navigation} />
+  );
+
+  return loading ? (
+    <LoadingIndicator />
+  ) : (
+    <SafeAreaView style={{ flex: 1, width: "100%" }}>
       <FlatList
+        style={{ maxWidth: "100%" }}
         data={categories}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={["#78e08f"]}
+            progressBackgroundColor="#0a3d62"
+          />
+        }
         keyExtractor={(item, index) => index.toString()}
-        renderItem={(category) => (
-          <Category category={category} navigation={navigation} />
-        )}
+        renderItem={renderItem}
       />
-    </View>
-  );
-};
-const Category = ({ category, navigation }: any) => {
-  const { id, name } = category.item;
-  return (
-    <TouchableOpacity>
-      <View style={styles.viewCategory}>
-        <Text style={styles.categoryTitle}>{name}</Text>
-        <Icon style={styles.icon} name="chevron-right" color="#909497" />
-      </View>
-    </TouchableOpacity>
+    </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
-  viewCategory: {
-    flexDirection: "row",
-    margin: 5,
-    padding: 15,
-    backgroundColor: "#E5E5E5",
-    marginVertical: 1,
-    marginHorizontal: 0,
-    borderColor: "#ECF0F1",
-    justifyContent: "space-between",
-  },
-  categoryTitle: {
-    color: "#34495E",
-    fontWeight: "bold",
-  },
-  icon: {
-    color: "#909497",
-  },
-});
+const styles = StyleSheet.create({});

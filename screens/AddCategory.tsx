@@ -20,19 +20,23 @@ export const AddCategory = ({ navigation }: any) => {
   };
 
   const addNewCategory = async () => {
+    // const token = await AsyncStorage.getItem("token");
     const token = await AsyncStorage.getItem("token");
-    const res = await fetch(`${API_URL}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": `${token}`,
-      },
-      body: JSON.stringify(category),
-    });
-    const data = await res.json();
-    if (data) {
-      navigation.navigate("HomeScreen");
-      console.log(data);
+    if (token != null) {
+      const { accessToken } = JSON.parse(token);
+
+      const res = await fetch(`${API_URL}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": `${accessToken}`,
+        },
+        body: JSON.stringify(category),
+      });
+      const data = await res.json();
+      if (data) {
+        navigation.navigate("HomeScreen");
+      }
     }
   };
 
